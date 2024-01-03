@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Recommendation System</title>
+<!--    <link rel="stylesheet" href="../static/style.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    {{ fontawesome_html() }}
+</head>
+<body>
+
+    <div class="row">
+        <div class="col-3">
+            <nav class="nav navbar flex-column">
+<!--                <img src="images/book.png" height="80" width="80"/>-->
+                <ul>
+                    <li><a href="/" class="nav-link navLink">
+                      <i class="fa fa-home fa-2x"></i> <h4 class="navLable">Home</h4>
+                    </a></li>
+                    <li><a href="/popular" class="nav-link navLink">
+                        <i class="fa fa-book fa-2x"></i> <h4 class="navLable">Popular Books</h4>
+                    </a></li>
+                    <li><a class="nav-link navLink">
+                      <i class="fa fa-info-circle fa-2x"></i> <h4 class="navLable">About</h4>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="container col-9 align-self-center">
+            <div class="column">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+    <!--                    <img src="images/images.jpg" height="200" width="400"/>-->
+                        <h4 class="display-4 mb-5">I wanna read something like...</h4>
+                        <form action="/recommend" method="get">
+                            <input id="txtBookName" type="search" class="form-control" list="availBooks">
+                            <datalist id="availBooks">
+                                {% for i in range(5) %}
+                                {% for book_title in lsBookTitles %}
+                                    <option value="{{book_title}}">{{book_title}}</option>
+                                {% else %}
+                                    <option><b>No Item found..</b></option>
+                                {% endfor %}
+                                {% endfor %}
+                            </datalist>
+<!--                            <script>-->
+<!--                            $( function() {-->
+<!--                                var availBooks = [-->
+<!--                                    {% for book_title in dfBookTitles %}-->
+<!--                                        "{{book_title}}",-->
+<!--                                    {% endfor %}-->
+<!--                                ];-->
+<!--                                $( "#txtBookName" ).autocomplete({-->
+<!--                                  source: availBooks-->
+<!--                                });-->
+<!--                              } );-->
+<!--                              </script>-->
+<!--                            <button type="submit" class="btn shadow-lg shadow-intensity-lg shadow-danger btn-danger btn-lg rounded-pill btnFill">-->
+<!--                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>Recommend!-->
+<!--                            </button>-->
+                            <br>
+                            <button type="submit" class="button rounded-pill">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>Recommend!
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                {% if data %}
+                     {% for i in data %}
+                        <div class="col-md-2" style="margin-top:50px">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img class="card-img-top" src="{{ i[2] }}">
+                                    <p>{{ i[0] }}</p>
+                                    <h4>{{ i[1] }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                     {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
